@@ -21,13 +21,13 @@ namespace task_tcp_client {
             for (const auto& process_info: process_list) {
                 message.append(std::to_string(process_info.pid) + ',' + process_info.command + ',' + process_info.user + ';');
             }
-            this->send_message("message");
+            this->send_message(message);
         }
 
         void start() {
             this->initialize_socket();
             this->client_connect(8080);
-            this->start_periodic(std::chrono::seconds(10));
+            this->start_periodic(std::chrono::seconds(30));
         }
 
         ~process_watcher() {
