@@ -14,7 +14,7 @@ namespace task_tcp_client {
         explicit timer(Self& self) :_self(self) {}
         void start_periodic(const std::chrono::milliseconds& interval) {
             stop();
-            _thread = std::jthread([=, this](std::stop_token stoken) {
+            _thread = std::jthread([=, this](const std::stop_token& stoken) {
                 while (!stoken.stop_requested()) {
                     std::this_thread::sleep_for(interval);
                     if (!stoken.stop_requested()) {

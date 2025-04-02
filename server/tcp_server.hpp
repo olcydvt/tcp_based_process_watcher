@@ -87,8 +87,9 @@ namespace task_tcp_server {
                             close(fd);
                             _clients.erase(fd);
                         } else {
-                            _clients.at(fd).on_incoming(buffer, count, [self = this](const int _fd, char* buff, const ssize_t cnt) {
+                            _clients.at(fd).on_incoming(buffer, count, [self = this, fd, this](const int _fd, char* buff, const ssize_t cnt) {
                                 self->send_response(_fd, buff, cnt);
+                                std::cout << "Client " << _clients.at(fd).get_id() << " message handling completed " << "\n";
                             });
                         }
                     }
@@ -98,7 +99,8 @@ namespace task_tcp_server {
 
         void send_response(int fd, char* buffer, ssize_t count) {
             buffer[count] = '\0';
-            write(fd, buffer, count);
+            // response message is not needed for this task, response handler in client side should be implemented if it will be required
+            //write(fd, buffer, count);
         }
 
     private:

@@ -35,7 +35,6 @@ namespace task_tcp_client {
 
             while (fgets(buffer, sizeof(buffer), pipe.get()) != nullptr) {
                 if (first_line) {
-                    // Skip header line
                     first_line = false;
                     continue;
                 }
@@ -43,10 +42,9 @@ namespace task_tcp_client {
                 std::string line(buffer);
                 std::istringstream iss(line);
 
-                process_info info;
                 std::string pid_str;
 
-                if (iss >> pid_str >> info.command >> info.user) {
+                if (process_info info; iss >> pid_str >> info.command >> info.user) {
                     try {
                         info.pid = std::stoi(pid_str);
                         info.user = info.user.substr(0, info.user.find_last_not_of(" \n\r") + 1);
